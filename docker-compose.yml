@@ -1,0 +1,27 @@
+version: '3'
+services:
+  movie-service:
+    image: movie-app
+    build: movie-service/.
+    ports:
+      - 8085:8085
+    depends_on:
+       - eureka-discovery-service
+  authentication-service:
+    image: authentication-app
+    build: authentication-service/.
+    ports:
+      - 8087:8087
+  eureka-discovery-service:
+    image: eureka-discovery-app
+    build: eureka-discovery-service/.
+    ports:
+      - 8086:8761
+  zuul-gateway-service:
+    image: zuul-gateway-app
+    build: zuul-gateway-service/.
+    ports:
+      - 8088:8088
+    links:
+      - movie-service
+      - eureka-discovery-service
